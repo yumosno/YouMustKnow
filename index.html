@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>You must know the truth</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .main-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+        .step {
+            display: none;
+            margin-bottom: 20px;
+        }
+        .active {
+            display: block;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .bold-text {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .final-text {
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">You must know the truth</h1>
+    
+    <div id="step1" class="step active">
+        <h2>Enter Your Text</h2>
+        <textarea id="userText" placeholder="Type your text here..."></textarea>
+        <br>
+        <button onclick="showConfirmation()">Submit</button>
+    </div>
+
+    <div id="step2" class="step">
+        <h2>Confirm Your Text</h2>
+        <div class="final-text" id="confirmationText"></div>
+        <p>Would you like to process this text?</p>
+        <button onclick="processText()">Yes</button>
+        <button onclick="returnToInput()">No, start over</button>
+    </div>
+
+    <div id="step3" class="step">
+        <h2>Final Result</h2>
+        <p>This is the text you entered:</p>
+        <div class="final-text bold-text" id="finalText"></div>
+        <button onclick="completeReset()">Start Over</button>
+    </div>
+
+    <script>
+        let previousText = '';
+
+        function showConfirmation() {
+            const text = document.getElementById('userText').value.trim();
+            if (text === '') {
+                alert('Please enter some text first.');
+                return;
+            }
+            previousText = text;
+            document.getElementById('confirmationText').textContent = text;
+            showStep(2);
+        }
+
+        function processText() {
+            document.getElementById('finalText').textContent = previousText;
+            showStep(3);
+        }
+
+        function returnToInput() {
+            // Return to input with previous text when user clicks "No"
+            document.getElementById('userText').value = previousText;
+            showStep(1);
+        }
+
+        function completeReset() {
+            // Complete reset when starting over from final step
+            previousText = '';
+            document.getElementById('userText').value = '';
+            showStep(1);
+        }
+
+        function showStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step' + stepNumber).classList.add('active');
+        }
+    </script>
+</body>
+</html>
